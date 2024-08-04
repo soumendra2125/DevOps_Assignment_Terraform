@@ -1,0 +1,15 @@
+services:
+  # angular-service:
+  #   container_name: angular-container
+  #   build: ./
+  #   ports:
+  #     - "4200:4200"
+  docker-nginx:
+    # container_name: docker-nginx
+    # build: ./
+    image: soumendra08/frontend:1.0.0
+    ports:
+      - "80:80"
+    command: ["nginx", "-g", "daemon off;"]
+    # links:
+    #   - angular-service
