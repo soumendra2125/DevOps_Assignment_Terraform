@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Create_Infra') {
             steps {
-                
+                    git branch: 'main', url: 'https://github.com/soumendra2125/DevOps_Assignment_Terraform.git'
                     // Run Terraform to create infrastructure
                     sh '''
                     pwd
