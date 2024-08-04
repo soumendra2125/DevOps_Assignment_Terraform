@@ -7,6 +7,7 @@ pipeline {
     stages {
         stage('Create_Infra') {
             steps {
+                script {
                     git branch: 'main', url: 'https://github.com/soumendra2125/DevOps_Assignment_Terraform.git'
                     // Run Terraform to create infrastructure
                     sh '''
@@ -66,10 +67,12 @@ pipeline {
                         }
                     }
                     '''
+                }
             }
         }
         stage('Deploy_Apps') {
             steps {
+                script {
                     // Assume the docker images have already been built and pushed to DockerHub
                     def frontend_image = 'soumendra08/frontend:1.0.0'
                     def backend_image = 'soumendra08/backend:1.0.0'
@@ -89,12 +92,12 @@ pipeline {
                     sudo docker compose up
                     "
                     '''
-                
+                }
             }
         }
         stage('Test_Solution') {
             steps {
-                
+                script {
                     // Check if frontend is running
                     def frontend_status = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${frontend_ip}", returnStdout: true).trim()
                     if (frontend_status == '200') {
@@ -110,18 +113,19 @@ pipeline {
                     // PGPASSWORD=yourpassword psql -h localhost -U yourusername -d yourdatabase -c 'SELECT 1'
                     // "
                     // '''
-                
+                }
             }
         }
     }
     post {
         always {
-            
+            script {
                 // Clean up Terraform resources
                 sh '''
                 cd terraform
                 terraform destroy -auto-approve
                 '''
+            }
         }
         
     }
